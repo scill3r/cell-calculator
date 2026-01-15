@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -114,67 +114,67 @@ hr.sep{
 <body>
 <div class="wrap">
   <h1>Cell Calculator</h1>
-  <div class="version">Version: 2026-01-14 14:06</div>
+  <div class="version">Version: 2026-01-14 14:20</div>
 
-  <!-- 1) Konzentration + Gesamtzellzahl -->
+  <!-- 1) Concentration + total cells -->
   <div class="card">
     <div class="grid2">
       <div>
-        <label>Quelle der Konzentration</label>
+        <label>Concentration source</label>
         <select id="mode">
-          <option value="hemo">Hämozytometer (Neubauer)</option>
-          <option value="known">Konzentration bekannt</option>
+          <option value="hemo" selected>Hemocytometer (Neubauer)</option>
+          <option value="known">Concentration known</option>
         </select>
       </div>
       <div>
-        <label>Hinweis</label>
-        <input disabled value="Neubauer: (counts/squares) × dilution × 10^4 = Zellen/mL">
+        <label>Note</label>
+        <input disabled value="Neubauer: (counts/squares) × dilution × 10^4 = cells/mL">
       </div>
     </div>
 
     <div id="hemoBox" class="grid3" style="margin-top:16px;">
       <div>
-        <label>Gezählte Zellen (Summe)</label>
-        <input id="counts" value="154">
+        <label>Counted cells (sum)</label>
+        <input id="counts" value="250">
       </div>
       <div>
-        <label>Quadrate</label>
+        <label>Squares</label>
         <input id="squares" value="4">
       </div>
       <div>
-        <label>Verdünnung</label>
+        <label>Dilution factor</label>
         <input id="dilution" value="1">
       </div>
     </div>
 
     <div id="knownBox" class="grid2" style="margin-top:16px; display:none;">
       <div>
-        <label>Konzentration</label>
-        <input id="concVal" value="3.85e5">
+        <label>Concentration</label>
+        <input id="concVal" value="6.25e5">
       </div>
       <div>
-        <label>Einheit</label>
+        <label>Unit</label>
         <select id="concUnit">
-          <option value="ml">Zellen/mL</option>
-          <option value="ul">Zellen/µL</option>
+          <option value="ml" selected>cells/mL</option>
+          <option value="ul">cells/µL</option>
         </select>
       </div>
     </div>
 
     <div class="grid2" style="margin-top:16px;">
       <div>
-        <label>Volumen Zellsuspension (mL)</label>
-        <input id="suspVolML" value="4.0">
+        <label>Current suspension volume (mL)</label>
+        <input id="suspVolML" value="5">
       </div>
       <div>
-        <label>Gesamtzellzahl</label>
+        <label>Total cells</label>
         <div class="out" id="totalCellsOut">–</div>
         <div class="sub" id="totalCellsSub"></div>
       </div>
     </div>
 
     <div style="margin-top:16px;">
-      <span class="pill">Konzentration</span>
+      <span class="pill">Concentration</span>
       <div class="out" id="concOut">–</div>
     </div>
   </div>
@@ -183,41 +183,41 @@ hr.sep{
   <div class="card">
     <div class="grid3">
       <div>
-        <label>Zielzellzahl (pro Well/Dish)</label>
+        <label>Target cells (per well/dish)</label>
         <input id="targetCells" value="200000">
       </div>
       <div>
-        <label>Endvolumen (mL)</label>
-        <input id="finalVol" value="0.3">
+        <label>Final volume (mL)</label>
+        <input id="finalVol" value="">
       </div>
       <div>
-        <label>Preset (Well Plate)</label>
+        <label>Preset (sorted small → large)</label>
         <select id="preset">
-          <option value="">kein Preset</option>
-          <option value="3.0">6-well (3.0 mL)</option>
-          <option value="1.0">12-well (1.0 mL)</option>
-          <option value="0.5">24-well (0.5 mL)</option>
-          <option value="0.3" selected>8-well (0.3 mL)</option>
+          <option value="">no preset</option>
           <option value="0.2">96-well (0.2 mL)</option>
+          <option value="0.3">8-well (0.3 mL)</option>
+          <option value="0.5">24-well (0.5 mL)</option>
+          <option value="1.0">12-well (1.0 mL)</option>
+          <option value="3.0">6-well (3.0 mL)</option>
         </select>
       </div>
     </div>
 
     <div class="grid2" style="margin-top:18px;">
       <div>
-        <span class="pill">Zu pipettieren</span>
+        <span class="pill">Add cell suspension</span>
         <div class="out" id="pipOut">–</div>
         <div class="sub" id="pipSub"></div>
       </div>
       <div>
-        <span class="pill">Medium auffüllen</span>
+        <span class="pill">Top up with medium</span>
         <div class="out" id="medOut">–</div>
-        <div class="sub">bis Endvolumen</div>
+        <div class="sub">to final volume</div>
       </div>
     </div>
 
     <div class="grid2" style="margin-top:18px;">
-      <button id="copyPlateBtn">Plating Volumen kopieren</button>
+      <button id="copyPlateBtn">Copy plating volume</button>
       <button id="resetBtn">Reset</button>
     </div>
   </div>
@@ -226,97 +226,83 @@ hr.sep{
   <div class="card">
     <div class="grid2">
       <div>
-        <label>Modus</label>
+        <label>Mode</label>
         <select id="cryoMode">
-          <option value="single">Einzel-Cryo aus aktueller Suspension (Abnehmen)</option>
-          <option value="pellet" selected>Cryo aus Gesamtpellet (Resuspendieren + Aliquots)</option>
+          <option value="single">Single vial from current suspension (take volume)</option>
+          <option value="pellet" selected>From full pellet (resuspend once, then aliquot)</option>
         </select>
       </div>
       <div>
-        <label>Endvolumen pro Cryo (mL)</label>
-        <input id="cryoVol" value="1.0">
+        <label>Final volume per cryovial (mL)</label>
+        <input id="cryoVolML" value="1.0">
       </div>
     </div>
 
     <hr class="sep">
 
-    <!-- Cryo: Einzel -->
-    <div id="cryoSingleBox">
+    <!-- Cryo: Single -->
+    <div id="cryoSingleBox" style="display:none;">
       <div class="sub">
-        Bedeutung: Du nimmst ein Teilvolumen aus deiner aktuellen Suspension, das genau die Target-Zellzahl enthält. Wenn das Abnahmevolumen größer als das Cryo-Endvolumen ist, pelletierst du und resuspendierst im Cryo-Endvolumen.
+        You take a volume from the current suspension that contains the requested cell number. If the taken volume is larger than the cryovial final volume, pellet and resuspend to the cryovial volume.
       </div>
 
       <table class="table">
         <thead>
           <tr>
-            <th>Target (Zellen)</th>
-            <th>Abnehmen aus Suspension</th>
-            <th>Danach</th>
+            <th>Target (cells)</th>
+            <th>Take from suspension</th>
+            <th>Then</th>
           </tr>
         </thead>
         <tbody id="cryoSingleTable"></tbody>
       </table>
 
       <div class="grid2" style="margin-top:18px;">
-        <button id="copyCryoSingle1M">Cryo 1 Mio kopieren</button>
-        <button id="copyCryoSingleAll">Alle Targets kopieren</button>
+        <button id="copyCryoSingle1M">Copy 1,000,000 target</button>
+        <button id="copyCryoSingleAll">Copy all targets</button>
       </div>
     </div>
 
-    <!-- Cryo: Pellet -->
+    <!-- Cryo: Pellet (prioritize 1,000,000 vials) -->
     <div id="cryoPelletBox">
       <div class="sub">
-        Bedeutung: Du pelletierst alle Zellen (z.B. aus 4 mL), verwirfst den Überstand und resuspendierst das Pellet in ein neues Gesamtvolumen. Daraus pipettierst du Aliquots, die exakt die gewünschte Zellzahl enthalten.
+        Workflow: pellet all cells, discard supernatant, resuspend once, then aliquot into cryovials. This mode prioritizes making as many <strong>1,000,000-cells</strong> cryovials as possible.
       </div>
 
       <div class="grid2" style="margin-top:14px;">
         <div>
-          <label>Targets (Zellen pro Cryo)</label>
-          <textarea id="cryoTargetsText">1000000
-750000
-500000</textarea>
-          <div class="sub">Eine Zahl pro Zeile. Du kannst beliebig viele Targets eintragen.</div>
+          <label>Priority target per vial (cells)</label>
+          <input id="priorityCells" value="1000000">
+          <div class="sub">Default is 1,000,000 cells per vial.</div>
         </div>
         <div>
-          <label>Aliquot-Regel</label>
-          <select id="aliquotRule">
-            <option value="oneML" selected>Ich möchte 1.0 mL pro Cryo pipettieren (Konzentration so wählen, dass 1 mL passt)</option>
-            <option value="cryoVol">Ich möchte das oben eingestellte Cryo-Endvolumen pipettieren (Konzentration so wählen, dass dieses Volumen passt)</option>
-          </select>
-
-          <div style="margin-top:14px;">
-            <label>Plan (Beispiel)</label>
-            <select id="pelletPlan">
-              <option value="custom" selected>Custom: nutze Liste unten</option>
-              <option value="1M_500k">1× 1,000,000 + 1× 500,000</option>
-              <option value="1M_750k">1× 1,000,000 + 1× 750,000</option>
-              <option value="750k_500k">1× 750,000 + 1× 500,000</option>
-            </select>
-            <div class="sub">Der Plan bestimmt, welche Aliquots du aus dem resuspendierten Pellet machen willst.</div>
+          <label>Aliquot volume you want to pipette (mL)</label>
+          <input id="aliquotVolML" value="1.0">
+          <div class="sub">
+            If you set this to 1.0 mL, the tool suggests a resuspension that gives exactly 1,000,000 cells per 1.0 mL.
           </div>
         </div>
       </div>
 
       <div style="margin-top:16px;">
-        <span class="pill">Pellet-Resuspend-Vorschlag</span>
-        <div class="out" id="pelletResuspOut">–</div>
-        <div class="sub" id="pelletResuspSub"></div>
+        <span class="pill">Result</span>
+        <div class="out" id="pelletMainOut">–</div>
+        <div class="sub" id="pelletMainSub"></div>
       </div>
 
       <table class="table" style="margin-top:12px;">
         <thead>
           <tr>
-            <th>Aliquot (Target)</th>
-            <th>Zu pipettieren aus Resuspension</th>
-            <th>Check</th>
+            <th>What to do</th>
+            <th>Value</th>
           </tr>
         </thead>
-        <tbody id="pelletAliquotTable"></tbody>
+        <tbody id="pelletStepsTable"></tbody>
       </table>
 
       <div class="grid2" style="margin-top:18px;">
-        <button id="copyPelletPlanBtn">Pellet-Plan kopieren</button>
-        <button id="copyPelletResuspBtn">Resuspend-Volumen kopieren</button>
+        <button id="copyPelletSummaryBtn">Copy cryo summary</button>
+        <button id="copyPelletResuspBtn">Copy resuspension volume</button>
       </div>
     </div>
 
@@ -341,82 +327,80 @@ function concPerML(){
 
 function fmtInt(n){
   if (!isFinite(n) || n <= 0) return "–";
-  return Math.round(n).toLocaleString("de-DE");
+  return Math.round(n).toLocaleString("en-US");
 }
 
-function fmtML(mL){
-  if (!isFinite(mL) || mL <= 0) return "–";
-  if (mL < 1) return `${Math.round(mL*1000)} µL`;
-  return `${mL.toFixed(3)} mL`;
-}
-
-function parseTargets(text){
-  return text
-    .split(/\r?\n/)
-    .map(s => s.trim())
-    .filter(Boolean)
-    .map(s => Number(s.replace(/[^\d.]/g, "")))
-    .filter(n => isFinite(n) && n > 0);
+// All outputs in µL, and if ≥ 1000 µL show mL (with 3 decimals).
+// Internally we format from µL.
+function fmtVolFromUL(uL){
+  if (!isFinite(uL) || uL <= 0) return "–";
+  if (uL >= 1000) return `${(uL/1000).toFixed(3)} mL`;
+  return `${Math.round(uL)} µL`;
 }
 
 function recompute(){
-  // show/hide conc inputs
+  // show/hide concentration inputs
   $("hemoBox").style.display = $("mode").value === "hemo" ? "grid" : "none";
   $("knownBox").style.display = $("mode").value === "known" ? "grid" : "none";
 
-  const c = concPerML();
-  $("concOut").textContent = c > 0 ? c.toExponential(3) + " Zellen/mL" : "–";
+  // base values
+  const c = concPerML(); // cells/mL
+  const suspV_mL = num($("suspVolML").value);
+  const totalCells = (c > 0 && suspV_mL > 0) ? c * suspV_mL : 0;
 
-  const suspV = num($("suspVolML").value);
-  const total = (c > 0 && suspV > 0) ? c * suspV : 0;
-
-  $("totalCellsOut").textContent = total > 0 ? fmtInt(total) + " Zellen" : "–";
-  $("totalCellsSub").textContent = total > 0 ? `${c.toExponential(3)} × ${suspV.toFixed(2)} mL` : "";
+  $("concOut").textContent = c > 0 ? `${c.toExponential(3)} cells/mL` : "–";
+  $("totalCellsOut").textContent = totalCells > 0 ? `${fmtInt(totalCells)} cells` : "–";
+  $("totalCellsSub").textContent =
+    totalCells > 0 ? `${c.toExponential(3)} × ${suspV_mL.toFixed(2)} mL` : "";
 
   // plating
   const target = num($("targetCells").value);
-  const vol_uL = (c > 0 && target > 0) ? (target / c) * 1000 : 0;
-  const volRounded = Math.round(vol_uL); // 1 µL Genauigkeit
-  $("pipOut").textContent = volRounded > 0 ? `${volRounded} µL` : "–";
-  $("pipSub").textContent = volRounded > 0 ? `exakt: ${vol_uL.toFixed(2)} µL` : "";
+  const vol_uL_exact = (c > 0 && target > 0) ? (target / c) * 1000 : 0;
+  const vol_uL = Math.round(vol_uL_exact); // 1 µL resolution
 
-  const finalV = num($("finalVol").value);
-  $("medOut").textContent =
-    (finalV > 0 && volRounded > 0)
-      ? `${Math.max(0, finalV - (volRounded/1000)).toFixed(3)} mL`
-      : "–";
+  $("pipOut").textContent = vol_uL > 0 ? fmtVolFromUL(vol_uL) : "–";
+  $("pipSub").textContent = vol_uL > 0 ? `exact: ${vol_uL_exact.toFixed(2)} µL` : "";
 
-  // cryo mode show/hide
-  const mode = $("cryoMode").value;
-  $("cryoSingleBox").style.display = mode === "single" ? "block" : "none";
-  $("cryoPelletBox").style.display = mode === "pellet" ? "block" : "none";
+  const finalV_mL = num($("finalVol").value);
+  const final_uL = (finalV_mL > 0) ? finalV_mL * 1000 : 0;
+  const med_uL = (final_uL > 0 && vol_uL > 0) ? Math.max(0, final_uL - vol_uL) : 0;
 
-  // Cryo Single
-  const cryoVol = num($("cryoVol").value);
+  $("medOut").textContent = (final_uL > 0 && vol_uL > 0) ? fmtVolFromUL(med_uL) : "–";
+
+  // cryo mode toggle
+  const cryoMode = $("cryoMode").value;
+  $("cryoSingleBox").style.display = cryoMode === "single" ? "block" : "none";
+  $("cryoPelletBox").style.display = cryoMode === "pellet" ? "block" : "none";
+
+  // Cryo: Single (fixed targets)
+  const cryoVol_mL = num($("cryoVolML").value) || 1.0;
   const singleTargets = [1000000, 750000, 500000];
-
   let singleRows = [];
-  if (c > 0 && total > 0){
+
+  if (c > 0 && totalCells > 0){
     for (const t of singleTargets){
       let take = "–";
-      let after = "–";
-      if (total < t){
-        take = `– <span class="badge-warn">zu wenig Zellen</span>`;
-        after = `<span class="sub">konzentrieren nötig</span>`;
+      let then = "–";
+
+      if (totalCells < t){
+        take = `– <span class="badge-warn">not enough cells</span>`;
+        then = `<span class="sub">concentrate required</span>`;
       } else {
-        const needML = t / c;
-        take = `${fmtML(needML)}<div class="sub">exakt: ${needML.toFixed(3)} mL</div>`;
-        after = `${cryoVol.toFixed(2)} mL<br><span class="sub">pelletieren, dann in Freezing Medium resuspendieren</span>`;
-        if (Math.abs(total - t) < 0.5){
-          take = `gesamte Suspension <span class="badge-ok">exakt passend</span>`;
-          after = `${cryoVol.toFixed(2)} mL<br><span class="sub">pelletieren, resuspendieren</span>`;
+        const need_uL_exact = (t / c) * 1000;
+        const need_uL = Math.round(need_uL_exact); // 1 µL
+        take = `${fmtVolFromUL(need_uL)}<div class="sub">exact: ${need_uL_exact.toFixed(2)} µL</div>`;
+        then = `${cryoVol_mL.toFixed(2)} mL<br><span class="sub">pellet, resuspend in freezing medium</span>`;
+
+        if (Math.abs(totalCells - t) < 0.5){
+          take = `entire suspension <span class="badge-ok">exact match</span>`;
+          then = `${cryoVol_mL.toFixed(2)} mL<br><span class="sub">pellet, resuspend</span>`;
         }
       }
-      singleRows.push({t, take, after});
+      singleRows.push({t, take, then});
     }
   } else {
     for (const t of singleTargets){
-      singleRows.push({t, take:"–", after:"–"});
+      singleRows.push({t, take:"–", then:"–"});
     }
   }
 
@@ -424,121 +408,139 @@ function recompute(){
     <tr>
       <td><strong>${fmtInt(r.t)}</strong></td>
       <td>${r.take}</td>
-      <td>${r.after}</td>
+      <td>${r.then}</td>
     </tr>
   `).join("");
 
-  // store copy strings for single
-  const singleCopyLines = singleRows.map(r => `${fmtInt(r.t)}: ${stripHtml(r.take)} -> ${stripHtml(r.after)}`);
+  // copy strings for single
+  const singleCopyLines = singleRows.map(r => `${fmtInt(r.t)}: ${stripHtml(r.take)} -> ${stripHtml(r.then)}`);
   window.__copyCryoSingleAll = singleCopyLines.join("\n");
   window.__copyCryoSingle1M = singleCopyLines[0] || "";
 
-  // Cryo Pellet mode
-  // Determine aliquot volume to be pipetted per cryo (either fixed 1.0 mL, or cryoVol)
-  const aliquotVol = $("aliquotRule").value === "oneML" ? 1.0 : (isFinite(cryoVol) && cryoVol > 0 ? cryoVol : 1.0);
+  // Cryo: Pellet (prioritize 1,000,000 vials)
+  const priorityCells = num($("priorityCells").value) || 1000000;
+  const aliquotVol_mL = num($("aliquotVolML").value) || 1.0;
 
-  // plan selection: overrides targets list into a concrete plan
-  let plan = [];
-  const planSel = $("pelletPlan").value;
-  if (planSel === "1M_500k") plan = [1000000, 500000];
-  else if (planSel === "1M_750k") plan = [1000000, 750000];
-  else if (planSel === "750k_500k") plan = [750000, 500000];
-  else plan = parseTargets($("cryoTargetsText").value);
+  // Master concentration chosen so that aliquotVol contains priorityCells.
+  // C_master = priorityCells / aliquotVol (cells/mL)
+  const C_master = (priorityCells > 0 && aliquotVol_mL > 0) ? (priorityCells / aliquotVol_mL) : 0;
 
-  // Calculate required master concentration so that aliquotVol contains the target cells:
-  // C_master = target / aliquotVol (cells/mL)
-  // But if multiple targets differ, one single C_master can't make all targets equal in same aliquotVol.
-  // Therefore in pellet mode we set C_master to the MAX target / aliquotVol, and take different volumes for other targets.
-  // This matches your example: set C_master = 1e6 cells/mL so 1.0 mL = 1e6 cells; 0.5 mL = 5e5 cells.
-  const maxTarget = plan.length ? Math.max(...plan) : 0;
-  const C_master = (maxTarget > 0 && aliquotVol > 0) ? (maxTarget / aliquotVol) : 0;
+  // Resuspend ALL cells to C_master: V_resusp = totalCells / C_master (mL)
+  const V_resusp_mL = (totalCells > 0 && C_master > 0) ? (totalCells / C_master) : 0;
 
-  // Suggested resuspension volume for the whole pellet:
-  // V_resusp = totalCells / C_master
-  const V_resusp = (total > 0 && C_master > 0) ? (total / C_master) : 0;
+  // How many full priority vials can we make?
+  const maxVials = (totalCells > 0 && priorityCells > 0) ? Math.floor(totalCells / priorityCells) : 0;
+  const remainingCells = (totalCells > 0 && priorityCells > 0) ? (totalCells - maxVials * priorityCells) : 0;
 
-  // How much volume is needed to dispense the planned aliquots at C_master?
-  // For each target t: V_take = t / C_master
-  const aliquots = plan.map(t => ({
-    t,
-    v: (C_master > 0) ? (t / C_master) : 0
-  }));
-  const V_needed = aliquots.reduce((a,x)=>a + (x.v||0), 0);
+  // If you resuspend to C_master, then each priority vial aliquot needs aliquotVol_mL.
+  const volumePerVial_uL = aliquotVol_mL * 1000;
+  const totalNeeded_uL = maxVials * volumePerVial_uL;
+  const totalResusp_uL = V_resusp_mL * 1000;
+  const remainingVol_uL = totalResusp_uL - totalNeeded_uL; // corresponds to remainingCells at C_master
 
-  // Output resuspension suggestion
-  if (total > 0 && C_master > 0){
-    const enoughVol = V_resusp >= V_needed - 1e-9;
-    const remaining = V_resusp - V_needed;
+  if (totalCells > 0 && C_master > 0){
+    if (maxVials >= 1){
+      $("pelletMainOut").textContent = `${maxVials} vial(s) at ${fmtInt(priorityCells)} cells`;
+      $("pelletMainSub").innerHTML =
+        `Suggested master concentration: <strong>${C_master.toExponential(3)} cells/mL</strong> so that ` +
+        `<strong>${aliquotVol_mL.toFixed(2)} mL</strong> contains <strong>${fmtInt(priorityCells)} cells</strong>. ` +
+        `Remaining after ${maxVials} vial(s): <strong>${fmtInt(remainingCells)} cells</strong>.`;
+    } else {
+      $("pelletMainOut").textContent = `0 vial(s) at ${fmtInt(priorityCells)} cells`;
+      $("pelletMainSub").innerHTML =
+        `You have <strong>${fmtInt(totalCells)} cells</strong>, which is below the priority target. ` +
+        `Even with maximal concentration, you cannot reach one full ${fmtInt(priorityCells)}-cell vial. ` +
+        `The suggested resuspension below still gives the most standardized concentration possible.`;
+    }
 
-    $("pelletResuspOut").textContent = `${V_resusp.toFixed(3)} mL`;
-    $("pelletResuspSub").innerHTML =
-      `Setze Master-Konzentration auf <strong>${C_master.toExponential(3)} Zellen/mL</strong> (damit ${aliquotVol.toFixed(2)} mL = ${fmtInt(maxTarget)} Zellen).<br>` +
-      `Du brauchst für deinen Plan <strong>${V_needed.toFixed(3)} mL</strong>. ` +
-      (enoughVol
-        ? `Rest nach Aliquots: <strong>${Math.max(0,remaining).toFixed(3)} mL</strong> <span class="badge-ok">passt</span>`
-        : `Dir fehlen <strong>${Math.abs(remaining).toFixed(3)} mL</strong> <span class="badge-warn">Plan passt so nicht</span>`
-      );
+    // Steps table
+    const steps = [];
 
-    // Table of aliquots
-    $("pelletAliquotTable").innerHTML = aliquots.map(aq => {
-      const v = aq.v;
-      const vText = (v > 0) ? fmtML(v) : "–";
-      const ok = (total > 0 && V_resusp >= V_needed - 1e-9);
-      const check = ok ? `<span class="badge-ok">ok</span>` : `<span class="badge-warn">nicht genug</span>`;
-      return `
-        <tr>
-          <td><strong>${fmtInt(aq.t)}</strong></td>
-          <td>${vText}</td>
-          <td>${check}</td>
-        </tr>
-      `;
-    }).join("");
+    steps.push({
+      k: "Pellet",
+      v: "Spin down the entire suspension and discard supernatant"
+    });
 
-    // copy strings
-    window.__copyPelletResusp = `Resuspendiere Gesamtpellet in ${V_resusp.toFixed(3)} mL (C_master=${C_master.toExponential(3)} Zellen/mL).`;
-    window.__copyPelletPlan =
-      `Pellet-Modus\n` +
-      `Gesamtzellen: ${fmtInt(total)}\n` +
-      `Master-Konzentration: ${C_master.toExponential(3)} Zellen/mL\n` +
-      `Resuspensionsvolumen: ${V_resusp.toFixed(3)} mL\n` +
-      `Aliquots:\n` +
-      aliquots.map(aq => `  - ${fmtInt(aq.t)} Zellen: ${fmtML(aq.v)}`).join("\n");
+    steps.push({
+      k: "Resuspend pellet in",
+      v: `${V_resusp_mL.toFixed(3)} mL (${fmtVolFromUL(totalResusp_uL)})`
+    });
+
+    steps.push({
+      k: "This gives",
+      v: `${C_master.toExponential(3)} cells/mL`
+    });
+
+    steps.push({
+      k: `Pipette per ${fmtInt(priorityCells)}-cell vial`,
+      v: `${aliquotVol_mL.toFixed(3)} mL (${fmtVolFromUL(volumePerVial_uL)})`
+    });
+
+    steps.push({
+      k: "Number of full vials",
+      v: `${maxVials}`
+    });
+
+    if (maxVials >= 1){
+      steps.push({
+        k: "Leftover volume at same concentration",
+        v: `${fmtVolFromUL(Math.max(0, remainingVol_uL))} (${fmtInt(remainingCells)} cells)`
+      });
+    } else {
+      // show what one vial would require in volume at this C_master (still aliquotVol) but insufficient cells
+      steps.push({
+        k: "What you could freeze instead",
+        v: `1 vial with ${fmtInt(totalCells)} cells in ${aliquotVol_mL.toFixed(2)} mL (if you accept a lower cell count)`
+      });
+    }
+
+    $("pelletStepsTable").innerHTML = steps.map(s => `
+      <tr><td>${s.k}</td><td><strong>${s.v}</strong></td></tr>
+    `).join("");
+
+    // clipboard strings
+    window.__copyPelletResusp = `${V_resusp_mL.toFixed(3)} mL`;
+    window.__copyPelletSummary =
+      `Cryo from full pellet (priority ${fmtInt(priorityCells)} cells)\n` +
+      `Total cells: ${fmtInt(totalCells)}\n` +
+      `Master concentration: ${C_master.toExponential(3)} cells/mL\n` +
+      `Resuspend pellet in: ${V_resusp_mL.toFixed(3)} mL\n` +
+      `Aliquot per vial: ${aliquotVol_mL.toFixed(3)} mL\n` +
+      `Full vials: ${maxVials}\n` +
+      `Remaining cells: ${fmtInt(remainingCells)}`;
   } else {
-    $("pelletResuspOut").textContent = "–";
-    $("pelletResuspSub").textContent = "Für Pellet-Modus bitte Konzentration und Suspensionsvolumen setzen.";
-    $("pelletAliquotTable").innerHTML = "";
+    $("pelletMainOut").textContent = "–";
+    $("pelletMainSub").textContent = "Set concentration and suspension volume to enable calculations.";
+    $("pelletStepsTable").innerHTML = "";
     window.__copyPelletResusp = "";
-    window.__copyPelletPlan = "";
+    window.__copyPelletSummary = "";
   }
 }
 
-// utility: strip html for clipboard
 function stripHtml(s){
   const div = document.createElement("div");
   div.innerHTML = s;
   return div.textContent || div.innerText || "";
 }
 
-// preset
+// preset handling
 $("preset").onchange = () => {
   if ($("preset").value) $("finalVol").value = $("preset").value;
   recompute();
 };
 
-// cryo plan selector behavior: when select preset plans, keep text area intact but computed plan changes
-$("pelletPlan").onchange = () => recompute();
-
 // listeners
 [
   "mode","counts","squares","dilution","concVal","concUnit",
-  "suspVolML","targetCells","finalVol","cryoVol",
-  "cryoMode","cryoTargetsText","aliquotRule"
+  "suspVolML",
+  "targetCells","finalVol","cryoMode","cryoVolML",
+  "priorityCells","aliquotVolML"
 ].forEach(id => $(id).addEventListener("input", recompute));
 
 $("copyPlateBtn").onclick = () => navigator.clipboard.writeText($("pipOut").textContent);
 $("copyCryoSingle1M").onclick = () => navigator.clipboard.writeText(window.__copyCryoSingle1M || "");
 $("copyCryoSingleAll").onclick = () => navigator.clipboard.writeText(window.__copyCryoSingleAll || "");
-$("copyPelletPlanBtn").onclick = () => navigator.clipboard.writeText(window.__copyPelletPlan || "");
+$("copyPelletSummaryBtn").onclick = () => navigator.clipboard.writeText(window.__copyPelletSummary || "");
 $("copyPelletResuspBtn").onclick = () => navigator.clipboard.writeText(window.__copyPelletResusp || "");
 $("resetBtn").onclick = () => location.reload();
 
