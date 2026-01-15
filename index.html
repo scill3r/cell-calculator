@@ -86,7 +86,7 @@ button { cursor: pointer; }
 <div class="wrap">
   <h1>Cell Calculator</h1>
 
-  <!-- Konzentration -->
+  <!-- Konzentration + Gesamtzellzahl -->
   <div class="card">
     <div class="grid2">
       <div>
@@ -136,12 +136,29 @@ button { cursor: pointer; }
       </div>
     </div>
 
+    <div class="grid2" style="margin-top:16px;">
+      <div>
+        <label>Volumen deiner aktuellen Zellsuspension (mL)</label>
+        <input id="suspVolML" value="4.0">
+      </div>
+      <div>
+        <label>Optional: nur Anzeige, keine Berechnung</label>
+        <input disabled value="Total = (Zellen/mL) × (mL)">
+      </div>
+    </div>
+
     <div style="margin-top:18px;">
       <span class="pill">Konzentration</span>
       <div class="out" id="concOut">–</div>
       <div class="sub">
         Neubauer großes Quadrat = 10⁻⁴ mL → Faktor 10⁴
       </div>
+    </div>
+
+    <div style="margin-top:18px;">
+      <span class="pill">Gesamtzellzahl in Suspension</span>
+      <div class="out" id="totalCellsOut">–</div>
+      <div class="sub" id="totalCellsSub"></div>
     </div>
   </div>
 
@@ -205,6 +222,11 @@ function concPerML() {
   }
 }
 
+function fmtInt(n) {
+  if (!isFinite(n) || n <= 0) return "–";
+  return Math.round(n).toLocaleString("de-DE");
+}
+
 function recompute() {
   $("hemoBox").style.display = $("mode").value === "hemo" ? "grid" : "none";
   $("knownBox").style.display = $("mode").value === "known" ? "grid" : "none";
@@ -212,10 +234,19 @@ function recompute() {
   const c = concPerML();
   $("concOut").textContent = c > 0 ? c.toExponential(3) + " Zellen/mL" : "–";
 
+  // Total cells in suspension
+  const suspV = num($("suspVolML").value);
+  const total = (c > 0 && suspV > 0) ? c * suspV : 0;
+  $("totalCellsOut").textContent = total > 0 ? fmtInt(total) + " Zellen" : "–";
+  $("totalCellsSub").textContent = (c > 0 && suspV > 0)
+    ? `Rechnung: ${c.toExponential(3)} Zellen/mL × ${suspV.toFixed(3)} mL`
+    : "";
+
+  // Plating volume
   const target = num($("targetCells").value);
   const step = num($("rounding").value);
   const vol_uL = c > 0 ? (target / c) * 1000 : 0;
-  const rounded = Math.round(vol_uL / step) * step;
+  const rounded = (step > 0) ? Math.round(vol_uL / step) * step : vol_uL;
 
   $("pipOut").textContent = rounded > 0 ? rounded.toFixed(1) + " µL" : "–";
   $("pipSub").textContent = rounded > 0 ? "exakt: " + vol_uL.toFixed(1) + " µL" : "";
@@ -232,10 +263,11 @@ $("preset").onchange = () => {
   recompute();
 };
 
-["mode","counts","squares","dilution","concVal","concUnit",
- "targetCells","finalVol","rounding"].forEach(id =>
-  $(id).addEventListener("input", recompute)
-);
+[
+  "mode","counts","squares","dilution","concVal","concUnit",
+  "suspVolML",
+  "targetCells","finalVol","rounding"
+].forEach(id => $(id).addEventListener("input", recompute));
 
 $("copyBtn").onclick = () =>
   navigator.clipboard.writeText($("pipOut").textContent);
