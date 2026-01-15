@@ -8,192 +8,258 @@
 <style>
 :root { color-scheme: light dark; }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Arial, sans-serif;
-  margin: 0;
-  background: #000;
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",Arial,sans-serif;
+  margin:0;
+  background:#000;
 }
 
-.wrap {
-  max-width: 780px;
-  margin: 0 auto;
-  padding: 16px;
+.wrap{ max-width:860px; margin:0 auto; padding:16px; }
+h1{ font-size:20px; margin:8px 0 6px; }
+.version{ font-size:12px; opacity:.7; margin-bottom:14px; }
+
+.card{
+  border:1px solid rgba(127,127,127,.35);
+  border-radius:16px;
+  padding:18px;
+  margin:20px 0;
 }
 
-h1 {
-  font-size: 20px;
-  margin: 8px 0 16px;
+label{ font-size:12px; opacity:.8; display:block; margin-bottom:6px; }
+
+input,select,button{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid rgba(127,127,127,.35);
+  background:transparent;
+  font-size:15px;
 }
 
-.card {
-  border: 1px solid rgba(127,127,127,.35);
-  border-radius: 16px;
-  padding: 18px;
-  margin: 20px 0;
+button{ cursor:pointer; }
+
+.grid2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.grid3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+
+.out{
+  font-size:20px;
+  font-weight:600;
+  margin-top:8px;
+  font-variant-numeric:tabular-nums;
 }
 
-label {
-  font-size: 12px;
-  opacity: .8;
-  display: block;
-  margin-bottom: 6px;
+.sub{
+  font-size:12px;
+  opacity:.75;
+  margin-top:6px;
+  line-height:1.4;
 }
 
-input, select, button {
-  width: 100%;
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(127,127,127,.35);
-  background: transparent;
-  font-size: 15px;
+.pill{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:999px;
+  border:1px solid rgba(127,127,127,.35);
+  font-size:12px;
+  margin-bottom:6px;
 }
 
-button { cursor: pointer; }
-
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
-
-.out {
-  font-size: 20px;
-  font-weight: 600;
-  margin-top: 8px;
-  font-variant-numeric: tabular-nums;
+.table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:12px;
+  font-variant-numeric:tabular-nums;
 }
 
-.sub {
-  font-size: 12px;
-  opacity: .75;
-  margin-top: 6px;
-  line-height: 1.4;
+.table th,.table td{
+  text-align:left;
+  padding:10px 8px;
+  border-bottom:1px solid rgba(127,127,127,.22);
+  vertical-align:top;
 }
 
-.pill {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(127,127,127,.35);
-  font-size: 12px;
-  margin-bottom: 6px;
+.badge-ok{
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid rgba(127,127,127,.35);
+  font-size:12px;
+  margin-left:6px;
 }
 
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 12px;
-  font-variant-numeric: tabular-nums;
+.badge-warn{
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,180,0,.6);
+  font-size:12px;
+  margin-left:6px;
 }
 
-.table th, .table td {
-  text-align: left;
-  padding: 10px 8px;
-  border-bottom: 1px solid rgba(127,127,127,.22);
-  vertical-align: top;
-}
-
-.badge-ok {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 999px;
-  border: 1px solid rgba(127,127,127,.35);
-  font-size: 12px;
-  margin-left: 6px;
-}
-
-.badge-warn {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,180,0,.6);
-  font-size: 12px;
-  margin-left: 6px;
-}
-
-@media (max-width: 700px) {
-  .grid2, .grid3 { grid-template-columns: 1fr; }
+@media (max-width: 760px){
+  .grid2,.grid3{ grid-template-columns:1fr; }
 }
 </style>
 </head>
 
 <body>
 <div class="wrap">
-<h1>Cell Calculator</h1>
+  <h1>Cell Calculator</h1>
+  <div class="version">Version: 2026-01-14 13:14</div>
 
-<!-- Konzentration -->
-<div class="card">
-  <div class="grid2">
-    <div>
-      <label>Quelle der Konzentration</label>
-      <select id="mode">
-        <option value="hemo">Hämozytometer (Neubauer)</option>
-        <option value="known">Konzentration bekannt</option>
-      </select>
+  <!-- 1) Konzentration + Gesamtzellzahl -->
+  <div class="card">
+    <div class="grid2">
+      <div>
+        <label>Quelle der Konzentration</label>
+        <select id="mode">
+          <option value="hemo">Hämozytometer (Neubauer)</option>
+          <option value="known">Konzentration bekannt</option>
+        </select>
+      </div>
+      <div>
+        <label>Rundung Pipettiervolumen</label>
+        <select id="rounding">
+          <option value="1">1 µL</option>
+          <option value="5">5 µL</option>
+          <option value="10" selected>10 µL</option>
+          <option value="25">25 µL</option>
+        </select>
+      </div>
     </div>
-    <div>
-      <label>Rundung Pipettiervolumen</label>
-      <select id="rounding">
-        <option value="1">1 µL</option>
-        <option value="5">5 µL</option>
-        <option value="10" selected>10 µL</option>
-      </select>
+
+    <div id="hemoBox" class="grid3" style="margin-top:16px;">
+      <div>
+        <label>Gezählte Zellen (Summe)</label>
+        <input id="counts" value="100">
+      </div>
+      <div>
+        <label>Quadrate</label>
+        <input id="squares" value="4">
+      </div>
+      <div>
+        <label>Verdünnung</label>
+        <input id="dilution" value="1">
+      </div>
+    </div>
+
+    <div id="knownBox" class="grid2" style="margin-top:16px; display:none;">
+      <div>
+        <label>Konzentration</label>
+        <input id="concVal" value="1e6">
+      </div>
+      <div>
+        <label>Einheit</label>
+        <select id="concUnit">
+          <option value="ml">Zellen/mL</option>
+          <option value="ul">Zellen/µL</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-top:16px;">
+      <div>
+        <label>Volumen Zellsuspension (mL)</label>
+        <input id="suspVolML" value="4.0">
+      </div>
+      <div>
+        <label>Hinweis</label>
+        <input disabled value="Total = (Zellen/mL) × (mL)">
+      </div>
+    </div>
+
+    <div style="margin-top:16px;">
+      <span class="pill">Konzentration</span>
+      <div class="out" id="concOut">–</div>
+      <div class="sub">Neubauer großes Quadrat = 10⁻⁴ mL → Faktor 10⁴</div>
+    </div>
+
+    <div style="margin-top:16px;">
+      <span class="pill">Gesamtzellzahl</span>
+      <div class="out" id="totalCellsOut">–</div>
+      <div class="sub" id="totalCellsSub"></div>
     </div>
   </div>
 
-  <div id="hemoBox" class="grid3" style="margin-top:16px;">
-    <div><label>Gezählte Zellen</label><input id="counts" value="100"></div>
-    <div><label>Quadrate</label><input id="squares" value="4"></div>
-    <div><label>Verdünnung</label><input id="dilution" value="1"></div>
-  </div>
-
-  <div class="grid2" style="margin-top:16px;">
-    <div>
-      <label>Volumen Zellsuspension (mL)</label>
-      <input id="suspVolML" value="4.0">
+  <!-- 2) Plating -->
+  <div class="card">
+    <div class="grid3">
+      <div>
+        <label>Zielzellzahl (pro Well/Dish)</label>
+        <input id="targetCells" value="200000">
+      </div>
+      <div>
+        <label>Endvolumen (mL)</label>
+        <input id="finalVol" value="">
+      </div>
+      <div>
+        <label>Preset (Well Plate)</label>
+        <select id="preset">
+          <option value="">kein Preset</option>
+          <option value="3.0">6-well (3.0 mL)</option>
+          <option value="1.0">12-well (1.0 mL)</option>
+          <option value="0.5">24-well (0.5 mL)</option>
+          <option value="0.3">8-well (0.3 mL)</option>
+          <option value="0.2">96-well (0.2 mL)</option>
+        </select>
+      </div>
     </div>
-    <div>
-      <label>Hinweis</label>
-      <input disabled value="Total = (Zellen/mL) × (mL)">
+
+    <div class="grid2" style="margin-top:18px;">
+      <div>
+        <span class="pill">Zu pipettieren</span>
+        <div class="out" id="pipOut">–</div>
+        <div class="sub" id="pipSub"></div>
+      </div>
+      <div>
+        <span class="pill">Medium auffüllen</span>
+        <div class="out" id="medOut">–</div>
+        <div class="sub">bis Endvolumen</div>
+      </div>
     </div>
-  </div>
 
-  <div style="margin-top:16px;">
-    <span class="pill">Konzentration</span>
-    <div class="out" id="concOut">–</div>
-  </div>
-
-  <div style="margin-top:16px;">
-    <span class="pill">Gesamtzellzahl</span>
-    <div class="out" id="totalCellsOut">–</div>
-    <div class="sub" id="totalCellsSub"></div>
-  </div>
-</div>
-
-<!-- Freezing -->
-<div class="card">
-  <div class="grid2">
-    <div>
-      <label>Endvolumen pro Cryo (mL)</label>
-      <input id="cryoVol" value="1.0">
-    </div>
-    <div>
-      <label>Rundung Abnahme</label>
-      <select id="cryoRound">
-        <option value="1">1 µL</option>
-        <option value="5" selected>5 µL</option>
-      </select>
+    <div class="grid2" style="margin-top:18px;">
+      <button id="copyPlateBtn">Plating Volumen kopieren</button>
+      <button id="resetBtn">Reset</button>
     </div>
   </div>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Target</th>
-        <th>Abnehmen</th>
-        <th>Resuspend-Vorschlag</th>
-      </tr>
-    </thead>
-    <tbody id="cryoTable"></tbody>
-  </table>
-</div>
+  <!-- 3) Cryo -->
+  <div class="card">
+    <div class="grid2">
+      <div>
+        <label>Endvolumen pro Cryo (mL)</label>
+        <input id="cryoVol" value="1.0">
+      </div>
+      <div>
+        <label>Rundung Abnahme</label>
+        <select id="cryoRound">
+          <option value="1">1 µL</option>
+          <option value="5" selected>5 µL</option>
+          <option value="10">10 µL</option>
+          <option value="25">25 µL</option>
+        </select>
+      </div>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Target</th>
+          <th>Abnehmen</th>
+          <th>Resuspend-Vorschlag</th>
+        </tr>
+      </thead>
+      <tbody id="cryoTable"></tbody>
+    </table>
+
+    <div class="sub" id="cryoNote" style="margin-top:10px;"></div>
+
+    <div class="grid2" style="margin-top:18px;">
+      <button id="copyCryoBtn">Cryo 1 Mio kopieren</button>
+      <button id="copyCryoAllBtn">Alle Cryo Targets kopieren</button>
+    </div>
+  </div>
 
 </div>
 
@@ -202,71 +268,139 @@ const $ = id => document.getElementById(id);
 const num = v => Number(String(v).replace(",", "."));
 
 function concPerML() {
-  const c = num($("counts").value);
-  const s = num($("squares").value);
-  const d = num($("dilution").value) || 1;
-  return s > 0 ? (c / s) * d * 1e4 : 0;
+  if ($("mode").value === "hemo") {
+    const c = num($("counts").value);
+    const s = num($("squares").value);
+    const d = num($("dilution").value) || 1;
+    return s > 0 ? (c / s) * d * 1e4 : 0;
+  } else {
+    const v = num($("concVal").value);
+    return $("concUnit").value === "ul" ? v * 1000 : v;
+  }
 }
 
-function fmt(n) {
+function fmtInt(n){
+  if (!isFinite(n) || n <= 0) return "–";
   return Math.round(n).toLocaleString("de-DE");
 }
 
-function recompute() {
+function fmtUL(uL){
+  if (!isFinite(uL) || uL <= 0) return "–";
+  if (uL < 1000) return `${uL.toFixed(uL < 10 ? 2 : 1)} µL`;
+  return `${(uL/1000).toFixed(3)} mL`;
+}
+
+function roundTo(uL, step){
+  if (!isFinite(uL)) return 0;
+  return Math.round(uL / step) * step;
+}
+
+function recompute(){
+  // show/hide
+  $("hemoBox").style.display = $("mode").value === "hemo" ? "grid" : "none";
+  $("knownBox").style.display = $("mode").value === "known" ? "grid" : "none";
+
+  // concentration + total
   const c = concPerML();
   $("concOut").textContent = c > 0 ? c.toExponential(3) + " Zellen/mL" : "–";
 
   const suspV = num($("suspVolML").value);
-  const total = c * suspV;
+  const total = (c > 0 && suspV > 0) ? c * suspV : 0;
 
-  $("totalCellsOut").textContent = total > 0 ? fmt(total) + " Zellen" : "–";
-  $("totalCellsSub").textContent =
-    total > 0 ? `${c.toExponential(3)} × ${suspV.toFixed(2)} mL` : "";
+  $("totalCellsOut").textContent = total > 0 ? fmtInt(total) + " Zellen" : "–";
+  $("totalCellsSub").textContent = total > 0 ? `${c.toExponential(3)} × ${suspV.toFixed(2)} mL` : "";
 
+  // plating
+  const target = num($("targetCells").value);
+  const step = num($("rounding").value) || 10;
+
+  const vol_uL = (c > 0 && target > 0) ? (target / c) * 1000 : 0;
+  const rounded = (vol_uL > 0) ? roundTo(vol_uL, step) : 0;
+
+  $("pipOut").textContent = rounded > 0 ? `${rounded.toFixed(1)} µL` : "–";
+  $("pipSub").textContent = rounded > 0 ? `exakt: ${vol_uL.toFixed(1)} µL` : "";
+
+  const finalV = num($("finalVol").value);
+  $("medOut").textContent =
+    (finalV > 0 && rounded > 0)
+      ? `${Math.max(0, finalV - (rounded/1000)).toFixed(3)} mL`
+      : "–";
+
+  // cryo
   const cryoVol = num($("cryoVol").value);
-  const step = num($("cryoRound").value);
+  const cryoStep = num($("cryoRound").value) || 5;
 
   const targets = [
-    1000000,
-    750000,
-    500000
+    {label:"1.000.000", cells:1000000},
+    {label:"750.000",  cells:750000},
+    {label:"500.000",  cells:500000},
   ];
 
   let rows = "";
-  for (const t of targets) {
-    let takeText = "–";
-    let resuspText = "–";
+  let copyAll = [];
+  for (const t of targets){
+    let take = "–";
+    let resusp = "–";
 
-    if (total > 0) {
-      if (Math.abs(total - t) < 1) {
-        takeText = "gesamte Suspension <span class='badge-ok'>exakt passend</span>";
-        resuspText = `${cryoVol.toFixed(2)} mL<br><span class="sub">kein Zentrifugieren nötig</span>`;
-      } else if (total > t) {
-        const needML = t / c;
-        takeText = (needML * 1000).toFixed(1) + " µL";
-        resuspText =
-          `${cryoVol.toFixed(2)} mL<br><span class="sub">Zellen ggf. pelletieren</span>`;
+    if (c > 0 && total > 0){
+      const enough = total >= t.cells;
+
+      // exact match: total cells equals target
+      if (Math.abs(total - t.cells) < 0.5){
+        take = `gesamte Suspension <span class="badge-ok">exakt passend</span>`;
+        resusp = `${cryoVol.toFixed(2)} mL<br><span class="sub">kein Zentrifugieren nötig</span>`;
+        copyAll.push(`${t.label}: gesamte Suspension; resuspend in ${cryoVol.toFixed(2)} mL`);
+      } else if (enough){
+        const need_uL_exact = (t.cells / c) * 1000;
+        const need_uL = roundTo(need_uL_exact, cryoStep);
+        take = `${fmtUL(need_uL)}<div class="sub">exakt: ${fmtUL(need_uL_exact)}</div>`;
+        resusp = `${cryoVol.toFixed(2)} mL<br><span class="sub">Zellen ggf. pelletieren</span>`;
+        copyAll.push(`${t.label}: take ${fmtUL(need_uL)} (exact ${fmtUL(need_uL_exact)}); resuspend in ${cryoVol.toFixed(2)} mL`);
       } else {
-        resuspText =
-          `<span class="badge-warn">zu wenig Zellen</span><br>
-           <span class="sub">konzentrieren nötig</span>`;
+        take = `– <span class="badge-warn">zu wenig Zellen</span>`;
+        resusp = `<span class="sub">konzentrieren nötig (pelletieren, weniger Volumen)</span>`;
+        copyAll.push(`${t.label}: zu wenig Zellen (konzentrieren nötig)`);
       }
     }
 
     rows += `
       <tr>
-        <td><strong>${fmt(t)}</strong></td>
-        <td>${takeText}</td>
-        <td>${resuspText}</td>
+        <td><strong>${t.label}</strong></td>
+        <td>${take}</td>
+        <td>${resusp}</td>
       </tr>`;
   }
 
   $("cryoTable").innerHTML = rows;
+
+  $("cryoNote").textContent =
+    (c > 0 && total > 0)
+      ? `Cryo basiert auf aktueller Konzentration und Gesamtzellzahl. Bei "zu wenig Zellen": pelletieren und in weniger Volumen resuspendieren.`
+      : `Für Cryo bitte Konzentration und Suspensionsvolumen setzen.`;
+
+  // store copy text
+  window.__copyCryoAll = copyAll.join("\n");
+  window.__copyCryo1M = copyAll[0] || "";
 }
 
+// preset
+$("preset").onchange = () => {
+  if ($("preset").value) $("finalVol").value = $("preset").value;
+  recompute();
+};
+
+// listeners
 [
-  "counts","squares","dilution","suspVolML","cryoVol","cryoRound"
+  "mode","counts","squares","dilution","concVal","concUnit",
+  "suspVolML",
+  "targetCells","finalVol","rounding",
+  "cryoVol","cryoRound"
 ].forEach(id => $(id).addEventListener("input", recompute));
+
+$("copyPlateBtn").onclick = () => navigator.clipboard.writeText($("pipOut").textContent);
+$("copyCryoBtn").onclick = () => navigator.clipboard.writeText(window.__copyCryo1M || "");
+$("copyCryoAllBtn").onclick = () => navigator.clipboard.writeText(window.__copyCryoAll || "");
+$("resetBtn").onclick = () => location.reload();
 
 recompute();
 </script>
