@@ -50,7 +50,6 @@ input, select, button {
 
 button { cursor: pointer; }
 
-.grid1 { display: grid; gap: 14px; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
 
@@ -164,7 +163,7 @@ button { cursor: pointer; }
           <option value="3.0">6-well (3.0 mL)</option>
           <option value="1.0">12-well (1.0 mL)</option>
           <option value="0.5">24-well (0.5 mL)</option>
-          <option value="0.3">48-well (0.3 mL)</option>
+          <option value="0.3">8-well (0.3 mL)</option>
           <option value="0.2">96-well (0.2 mL)</option>
         </select>
       </div>
@@ -192,8 +191,7 @@ button { cursor: pointer; }
 
 <script>
 const $ = id => document.getElementById(id);
-
-function num(v) { return Number(String(v).replace(",", ".")); }
+const num = v => Number(String(v).replace(",", "."));
 
 function concPerML() {
   if ($("mode").value === "hemo") {
